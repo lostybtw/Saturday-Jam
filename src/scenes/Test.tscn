@@ -183,3 +183,8 @@ cast_to = Vector2( -1000, 0 )
 [connection signal="rainfallhit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_rainfallhit"]
 [connection signal="swordswipehit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_swordswipehit"]
 [connection signal="windsweephit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_windsweephit"]
+[connection signal="enemyearthspikehit" from="enemybody/Enemy" to="Playerbody/Player" method="_on_Enemy_enemyearthspikehit"]
+[connection signal="enemyflamebleedhit" from="enemybody/Enemy" to="Playerbody/Player" method="_on_Enemy_enemyflamebleedhit"]
+[connection signal="enemyrainfallhit" from="enemybody/Enemy" to="Playerbody/Player" method="_on_Enemy_enemyrainfallhit"]
+[connection signal="enemyswordswipehit" from="enemybody/Enemy" to="Playerbody/Player" method="_on_Enemy_enemyswordswipehit"]
+[connection signal="enemywindsweephit" from="enemybody/Enemy" to="Playerbody/Player" method="_on_Enemy_enemywindsweephit"]

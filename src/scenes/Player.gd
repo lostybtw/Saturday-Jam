@@ -50,3 +50,18 @@ func _on_windsweep_pressed():
 
 func _on_swordswipe_pressed():
 	attack(7,"swordswipehit")
+
+func damage_take(child_no):
+	hp -= $".".get_parent().get_parent().get_child(child_no).damage
+
+
+func _on_Enemy_enemyflamebleedhit():
+	damage_take(3)
+func _on_Enemy_enemyearthspikehit():
+	damage_take(4)
+func _on_Enemy_enemyrainfallhit():
+	damage_take(5)
+func _on_Enemy_enemyswordswipehit():
+	damage_take(6)
+func _on_Enemy_enemywindsweephit():
+	damage_take(7)
