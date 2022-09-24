@@ -9,12 +9,15 @@ var skip_turn = 0
 var bleed = 0
 var just_hit = false
 var sigsend = ""
+var attack_name = ""
 
 signal enemyflamebleedhit
 signal enemyearthspikehit
 signal enemyrainfallhit
 signal enemywindsweephit
 signal enemyswordswipehit
+signal thinking
+signal donethinking
 
 func _process(delta):
 	$HP2.text = str(hp) + " " + "HP"
@@ -43,6 +46,7 @@ func attack(child_no):
 			print(collider)
 			if collider.is_in_group("Enemy"):
 				emit_signal(sigsend)
+				$".".get_parent().get_parent().get_child(10).text = "Enemy Used " + attack_name
 
 func _on_Player_flamebleedhit():
 	damage_take(3)
@@ -69,15 +73,23 @@ func _on_Player_swordswipehit():
 
 func backattack(rand):
 	if just_hit:
+		emit_signal("thinking")
+		yield(get_tree().create_timer(2), "timeout")
+		emit_signal("donethinking")
 		print(rand)
 		if rand == 3:
+			attack_name = "Fire Bend"
 			sigsend = "enemyflamebleedhit"
 		elif rand == 4:
+			attack_name = "Earth Bend"
 			sigsend = "enemyearthspikehit"
 		elif rand == 5:
+			attack_name = "Water Bend"
 			sigsend = "enemyrainfallhit"
 		elif rand == 6:
+			attack_name = "Air Bend"
 			sigsend = "enemywindsweephit"
 		elif rand == 7:
+			attack_name = "Sword Swipe"
 			sigsend = "enemyswordswipehit"
 		attack(rand)

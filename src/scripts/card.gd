@@ -12,7 +12,7 @@ export var card_size_reduction = 0
 export var card_name = "world"
 export (Texture) var card_image
 
-func _ready():
+func _process(delta):
 	$CardSprite.texture = card_image
 	$name.text = card_name
 	$MP.text = str(mp_use) + " " + "MP"
