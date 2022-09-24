@@ -8,7 +8,11 @@ var stunned = false
 var skip_turn = 0
 var bleed = 0
 
-signal hit
+signal flamebleedhit
+signal earthspikehit
+signal rainfallhit
+signal windsweephit
+signal swordswipehit
 
 func _process(delta):
 	$HP1.text = str(hp) + " " + "HP"
@@ -18,12 +22,31 @@ func _process(delta):
 	if mp <=0:
 		get_tree().quit()
 
+func attack(child_no,signaltosend):
+	if mp >= get_parent().get_parent().get_child(child_no).mp_use:
+		mp -= get_parent().get_parent().get_child(child_no).mp_use
+		mp += get_parent().get_parent().get_child(child_no).mp_gain
+		turns += 1
+		if $RayCast2D.is_colliding():
+			print("attack hit")
+			var collider = $RayCast2D.get_collider()
+			print(collider)
+			if collider.is_in_group("Enemy"):
+				emit_signal(signaltosend)
+	else:
+		get_tree().quit()
+
 func _on_flamebleed_pressed():
-	mp -= get_parent().get_parent().get_child(3).mp_use
-	turns += 1
-	if $RayCast2D.is_colliding():
-		print("attack hit")
-		var collider = $RayCast2D.get_collider()
-		print(collider)
-		if collider.is_in_group("Enemy"):
-			emit_signal("hit")
+	attack(3,"flamebleedhit")
+
+func _on_earthspike_pressed():
+	attack(4,"earthspikehit")
+
+func _on_rainfall_pressed():
+	attack(5,"rainfallhit")
+
+func _on_windsweep_pressed():
+	attack(6,"windsweephit")
+
+func _on_swordswipe_pressed():
+	attack(7,"swordswipehit")

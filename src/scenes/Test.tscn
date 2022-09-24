@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://MR ROBOT.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://res/gfx/back1.png" type="Texture" id=2]
@@ -9,6 +9,10 @@
 [ext_resource path="res://src/scenes/Player.gd" type="Script" id=7]
 [ext_resource path="res://res/gfx/allback.png" type="Texture" id=8]
 [ext_resource path="res://src/scripts/Enemy.gd" type="Script" id=9]
+[ext_resource path="res://res/gfx/earth.png" type="Texture" id=10]
+[ext_resource path="res://res/gfx/waterwave.png" type="Texture" id=11]
+[ext_resource path="res://res/gfx/windsweep.png" type="Texture" id=12]
+[ext_resource path="res://res/gfx/sword.png" type="Texture" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
@@ -40,9 +44,51 @@ texture = ExtResource( 2 )
 [node name="flamebleed" parent="." instance=ExtResource( 6 )]
 damage = 10
 bleed = 1
-mp_use = 15
+mp_use = 11
 card_name = "Flame Bleed"
 card_image = ExtResource( 3 )
+
+[node name="earthspike" parent="." instance=ExtResource( 6 )]
+margin_left = -784.0
+margin_top = 52.0
+margin_right = -759.0
+margin_bottom = 102.0
+damage = 6
+mp_use = 7
+mp_gain = 5
+card_name = "Earth Spike"
+card_image = ExtResource( 10 )
+
+[node name="rainfall" parent="." instance=ExtResource( 6 )]
+margin_top = -398.0
+margin_bottom = -348.0
+damage = 12
+bleed = 2
+mp_use = 12
+bleed_type = "drown"
+card_name = "Rain Fall"
+card_image = ExtResource( 11 )
+
+[node name="windsweep" parent="." instance=ExtResource( 6 )]
+margin_left = -933.0
+margin_top = -319.0
+margin_right = -908.0
+margin_bottom = -269.0
+bleed = 10
+mp_use = 10
+stun = true
+bleed_type = "mp"
+card_name = "Wind Sweep"
+card_image = ExtResource( 12 )
+
+[node name="swordswipe" parent="." instance=ExtResource( 6 )]
+margin_left = -937.0
+margin_top = -86.0
+margin_right = -912.0
+margin_bottom = -36.0
+damage = 5
+card_name = "Sword Swipe"
+card_image = ExtResource( 13 )
 
 [node name="Playerbody" type="KinematicBody2D" parent="." groups=["Enemy"]]
 
@@ -122,5 +168,18 @@ custom_fonts/mono_font = SubResource( 1 )
 custom_fonts/normal_font = SubResource( 2 )
 text = "100 MP"
 
+[node name="RayCast2D" type="RayCast2D" parent="enemybody/Enemy"]
+position = Vector2( -38, 2 )
+enabled = true
+cast_to = Vector2( -1000, 0 )
+
 [connection signal="pressed" from="flamebleed" to="Playerbody/Player" method="_on_flamebleed_pressed"]
-[connection signal="hit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_hit"]
+[connection signal="pressed" from="earthspike" to="Playerbody/Player" method="_on_earthspike_pressed"]
+[connection signal="pressed" from="rainfall" to="Playerbody/Player" method="_on_rainfall_pressed"]
+[connection signal="pressed" from="windsweep" to="Playerbody/Player" method="_on_windsweep_pressed"]
+[connection signal="pressed" from="swordswipe" to="Playerbody/Player" method="_on_swordswipe_pressed"]
+[connection signal="earthspikehit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_earthspikehit"]
+[connection signal="flamebleedhit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_flamebleedhit"]
+[connection signal="rainfallhit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_rainfallhit"]
+[connection signal="swordswipehit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_swordswipehit"]
+[connection signal="windsweephit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_windsweephit"]

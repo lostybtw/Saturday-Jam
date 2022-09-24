@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/sword.png-70ccb610a4245da99a682f6ba56d426f.stex"
+path="res://.import/sword.png-7c55e15b06d0831c2f80799df2548a24.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/sword.png"
-dest_files=[ "res://.import/sword.png-70ccb610a4245da99a682f6ba56d426f.stex" ]
+source_file="res://res/gfx/sword.png"
+dest_files=[ "res://.import/sword.png-7c55e15b06d0831c2f80799df2548a24.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
