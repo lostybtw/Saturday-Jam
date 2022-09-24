@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://MR ROBOT.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://res/gfx/back1.png" type="Texture" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://src/scripts/test.gd" type="Script" id=5]
 [ext_resource path="res://src/prefabs/Card.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/scenes/Player.gd" type="Script" id=7]
+[ext_resource path="res://res/gfx/allback.png" type="Texture" id=8]
+[ext_resource path="res://src/scripts/Enemy.gd" type="Script" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
@@ -13,14 +16,24 @@ font_data = ExtResource( 1 )
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 1 )
 
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 31.5, 32.5 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 30.5, 32 )
+
 [node name="Test" type="Node2D"]
 script = ExtResource( 5 )
+
+[node name="Allback" type="Sprite" parent="."]
+position = Vector2( -208, -173 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 8 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 
 [node name="Back1" type="Sprite" parent="."]
-position = Vector2( -49, -2 )
 scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 2 )
 
@@ -31,64 +44,83 @@ mp_use = 15
 card_name = "Flame Bleed"
 card_image = ExtResource( 3 )
 
-[node name="Player" type="Sprite" parent="."]
+[node name="Playerbody" type="KinematicBody2D" parent="." groups=["Enemy"]]
+
+[node name="Player" type="Sprite" parent="Playerbody"]
 position = Vector2( -323, -4 )
 texture = ExtResource( 4 )
+script = ExtResource( 7 )
 
-[node name="HP1" type="RichTextLabel" parent="Player"]
+[node name="HP1" type="RichTextLabel" parent="Playerbody/Player"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -485.0
-margin_top = -213.0
-margin_right = -385.0
-margin_bottom = -163.0
+margin_left = -147.0
+margin_top = -388.0
+margin_right = -47.0
+margin_bottom = -338.0
 rect_pivot_offset = Vector2( -500, 0 )
 custom_colors/default_color = Color( 1, 0, 0, 1 )
 custom_fonts/mono_font = SubResource( 1 )
 custom_fonts/normal_font = SubResource( 2 )
 text = "100 HP"
 
-[node name="MP1" type="RichTextLabel" parent="Player"]
+[node name="MP1" type="RichTextLabel" parent="Playerbody/Player"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -385.0
-margin_top = -213.0
-margin_right = -285.0
-margin_bottom = -163.0
+margin_left = -47.0
+margin_top = -388.0
+margin_right = 53.0
+margin_bottom = -338.0
 rect_pivot_offset = Vector2( -500, 0 )
 custom_colors/default_color = Color( 0, 0.862745, 0.588235, 1 )
 custom_fonts/mono_font = SubResource( 1 )
 custom_fonts/normal_font = SubResource( 2 )
 text = "100 MP"
 
-[node name="Enemy" type="Sprite" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="Playerbody/Player"]
+position = Vector2( 40, 3 )
+enabled = true
+cast_to = Vector2( 1000, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Playerbody"]
+position = Vector2( -324.5, -4.5 )
+shape = SubResource( 3 )
+
+[node name="enemybody" type="KinematicBody2D" parent="." groups=["Enemy"]]
 position = Vector2( 204, -1 )
-texture = ExtResource( 4 )
 
-[node name="HP2" type="RichTextLabel" parent="Enemy"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemybody"]
+position = Vector2( 0.5, -1 )
+shape = SubResource( 4 )
+
+[node name="Enemy" type="Sprite" parent="enemybody"]
+texture = ExtResource( 4 )
+script = ExtResource( 9 )
+
+[node name="HP2" type="RichTextLabel" parent="enemybody/Enemy"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 409.0
-margin_top = -213.0
-margin_right = 509.0
-margin_bottom = -163.0
+margin_left = 124.0
+margin_top = -388.0
+margin_right = 224.0
+margin_bottom = -338.0
 rect_pivot_offset = Vector2( -500, 0 )
 custom_colors/default_color = Color( 1, 0, 0, 1 )
 custom_fonts/mono_font = SubResource( 1 )
 custom_fonts/normal_font = SubResource( 2 )
 text = "100 HP"
 
-[node name="MP2" type="RichTextLabel" parent="Enemy"]
+[node name="MP2" type="RichTextLabel" parent="enemybody/Enemy"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 285.0
-margin_top = -216.0
-margin_right = 385.0
-margin_bottom = -166.0
+margin_top = -391.0
+margin_right = 100.0
+margin_bottom = -341.0
 rect_pivot_offset = Vector2( -500, 0 )
 custom_colors/default_color = Color( 0, 0.862745, 0.588235, 1 )
 custom_fonts/mono_font = SubResource( 1 )
 custom_fonts/normal_font = SubResource( 2 )
 text = "100 MP"
 
-[connection signal="pressed" from="flamebleed" to="." method="_on_flamebleed_pressed"]
+[connection signal="pressed" from="flamebleed" to="Playerbody/Player" method="_on_flamebleed_pressed"]
+[connection signal="hit" from="Playerbody/Player" to="enemybody/Enemy" method="_on_Player_hit"]
