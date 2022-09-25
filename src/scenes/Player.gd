@@ -48,6 +48,7 @@ func _on_flamebleed_pressed():
 	$".".get_parent().get_parent().get_child(3).get_child(4).play("Card Switch")
 	$".".get_parent().get_parent().get_child(3).damage -=2
 	$".".get_parent().get_parent().get_child(3).mp_use +=2
+	$".".get_parent().get_parent().get_child(3).rect_scale -= Vector2(0.2,0.2)
 
 func _on_earthspike_pressed():
 	attack_name = "Earth Spike"
