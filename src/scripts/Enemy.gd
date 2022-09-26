@@ -23,9 +23,9 @@ func _process(delta):
 	$HP2.text = str(hp) + " " + "HP"
 	$MP2.text = str(mp) + " " + "MP"
 	if hp <=0:
-		get_tree().quit()
+		get_tree().change_scene("res://src/scenes/win.tscn")
 	if mp <=0:
-		get_tree().quit()
+		get_tree().change_scene("res://src/scenes/win.tscn")
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	rand = (rand.randi_range(3, 7))
@@ -47,6 +47,7 @@ func attack(child_no):
 			if collider.is_in_group("Enemy"):
 				emit_signal(sigsend)
 				$".".get_parent().get_parent().get_child(10).text = "Enemy Used " + attack_name
+	else: get_tree().change_scene("res://src/scenes/win.tscn")
 
 func _on_Player_flamebleedhit():
 	damage_take(3)
@@ -74,22 +75,27 @@ func _on_Player_swordswipehit():
 func backattack(rand):
 	if just_hit:
 		emit_signal("thinking")
-		yield(get_tree().create_timer(2), "timeout")
+		yield(get_tree().create_timer(3), "timeout")
 		emit_signal("donethinking")
 		print(rand)
 		if rand == 3:
 			attack_name = "Fire Bend"
 			sigsend = "enemyflamebleedhit"
+			$"flame sound".play()
 		elif rand == 4:
 			attack_name = "Earth Bend"
 			sigsend = "enemyearthspikehit"
+			$"earthquake sound".play()
 		elif rand == 5:
 			attack_name = "Water Bend"
 			sigsend = "enemyrainfallhit"
+			$"rain sound".play()
 		elif rand == 6:
 			attack_name = "Air Bend"
 			sigsend = "enemywindsweephit"
+			$"wind sound".play()
 		elif rand == 7:
 			attack_name = "Sword Swipe"
 			sigsend = "enemyswordswipehit"
+			$"sword sound".play()
 		attack(rand)

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/earthquake.mp3-7b2c17177d973c72ed3f0d7a0914dd1c.mp3str"
+
+[deps]
+
+source_file="res://earthquake.mp3"
+dest_files=[ "res://.import/earthquake.mp3-7b2c17177d973c72ed3f0d7a0914dd1c.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

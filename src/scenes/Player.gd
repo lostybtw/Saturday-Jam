@@ -20,9 +20,12 @@ func _process(delta):
 	$HP1.text = str(hp) + " " + "HP"
 	$MP1.text = str(mp) + " " + "MP"
 	if hp <=0:
-		get_tree().quit()
+		get_tree().change_scene("res://src/scenes/win.tscn")
 	if mp <=0:
-		get_tree().quit()
+		get_tree().change_scene("res://src/scenes/win.tscn")
+	if get_parent().get_parent().get_child(11).is_playing() == false:
+		get_parent().get_parent().get_child(11).play()
+		
 
 func attack(child_no,signaltosend):
 	if enemy_thinking == false:
@@ -38,45 +41,62 @@ func attack(child_no,signaltosend):
 					emit_signal(signaltosend)
 					$".".get_parent().get_parent().get_child(10).text = "Player Used " + attack_name + ", " + "Enemy Thinking"
 		else:
-			get_tree().quit()
+			get_tree().change_scene("res://src/scenes/lose.tscn")
 	else:
 		return 0
+
+func reduce_player_size():
+	if $".".get_parent().scale > Vector2(0.5,0.5):
+		$".".get_parent().scale -= Vector2(0.08,0.08)
 
 func _on_flamebleed_pressed():
 	attack_name = "Flame Bleed"
 	attack(3,"flamebleedhit")
+	$"flame sound".play()
 	$".".get_parent().get_parent().get_child(3).get_child(4).play("Card Switch")
-	$".".get_parent().get_parent().get_child(3).damage -=2
-	$".".get_parent().get_parent().get_child(3).mp_use +=2
+	$".".get_parent().get_parent().get_child(3).damage -=1
+	$".".get_parent().get_parent().get_child(3).mp_use +=1
 	$".".get_parent().get_parent().get_child(3).rect_scale -= Vector2(0.2,0.2)
+	reduce_player_size()
 
 func _on_earthspike_pressed():
+	$"earthquake sound".play()
 	attack_name = "Earth Spike"
 	attack(4,"earthspikehit")
 	$".".get_parent().get_parent().get_child(4).get_child(4).play("Card Switch")
-	$".".get_parent().get_parent().get_child(4).damage -=2
-	$".".get_parent().get_parent().get_child(4).mp_use +=2
-
+	$".".get_parent().get_parent().get_child(4).damage -=1
+	$".".get_parent().get_parent().get_child(4).mp_use +=1
+	$".".get_parent().get_parent().get_child(4).rect_scale -= Vector2(0.2,0.2)
+	reduce_player_size()
 
 func _on_rainfall_pressed():
-	attack_name = "Rain Fall"
+	$"rain sound".play()
+	attack_name = "Cloud Burst"
 	attack(5,"rainfallhit")
 	$".".get_parent().get_parent().get_child(5).get_child(4).play("Card Switch")
-	$".".get_parent().get_parent().get_child(5).damage -=2
-	$".".get_parent().get_parent().get_child(5).mp_use +=2
+	$".".get_parent().get_parent().get_child(5).damage -=1
+	$".".get_parent().get_parent().get_child(5).mp_use +=1
+	$".".get_parent().get_parent().get_child(5).rect_scale -= Vector2(0.2,0.2)
+	reduce_player_size()
 
 func _on_windsweep_pressed():
+	$"wind sound".play()
 	attack_name = "Wind Sweep"
 	attack(6,"windsweephit")
 	$".".get_parent().get_parent().get_child(6).get_child(4).play("Card Switch")
-	$".".get_parent().get_parent().get_child(6).damage -=2
-	$".".get_parent().get_parent().get_child(6).mp_use +=2
+	$".".get_parent().get_parent().get_child(6).damage -=1
+	$".".get_parent().get_parent().get_child(6).mp_use +=1
+	$".".get_parent().get_parent().get_child(6).rect_scale -= Vector2(0.2,0.2)
+	reduce_player_size()
 
 func _on_swordswipe_pressed():
+	$"sword sound".play()
 	attack_name = "Sword Swipe"
 	attack(7,"swordswipehit")
 	$".".get_parent().get_parent().get_child(7).get_child(4).play("Card Switch")
-	$".".get_parent().get_parent().get_child(7).damage -=1
+	$".".get_parent().get_parent().get_child(7).damage -=0.5
+	$".".get_parent().get_parent().get_child(7).rect_scale -= Vector2(0.2,0.2)
+	reduce_player_size()
 
 func damage_take(child_no):
 	hp -= $".".get_parent().get_parent().get_child(child_no).damage

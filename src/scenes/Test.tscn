@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://MR ROBOT.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://res/gfx/back1.png" type="Texture" id=2]
@@ -15,6 +15,12 @@
 [ext_resource path="res://res/gfx/sword.png" type="Texture" id=13]
 [ext_resource path="res://res/gfx/enemy.png" type="Texture" id=14]
 [ext_resource path="res://SourceCodePro-Black.otf" type="DynamicFontData" id=15]
+[ext_resource path="res://battlemusic.wav" type="AudioStream" id=16]
+[ext_resource path="res://firemagic.wav" type="AudioStream" id=17]
+[ext_resource path="res://sword-swipes-7174.mp3" type="AudioStream" id=18]
+[ext_resource path="res://rain.mp3" type="AudioStream" id=19]
+[ext_resource path="res://wind.wav" type="AudioStream" id=20]
+[ext_resource path="res://earthquake.mp3" type="AudioStream" id=21]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
@@ -30,6 +36,12 @@ extents = Vector2( 30.5, 32 )
 
 [sub_resource type="DynamicFont" id=5]
 size = 14
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 15 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 24
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 15 )
@@ -74,7 +86,7 @@ margin_bottom = -348.0
 damage = 12
 bleed = 2
 bleed_type = "drown"
-card_name = "Rain Fall"
+card_name = "Cloud Burst"
 card_image = ExtResource( 11 )
 
 [node name="windsweep" parent="." instance=ExtResource( 6 )]
@@ -142,6 +154,26 @@ scale = Vector2( 0.25, 0.25 )
 enabled = true
 cast_to = Vector2( 1000, 0 )
 
+[node name="flame sound" type="AudioStreamPlayer2D" parent="Playerbody/Player"]
+stream = ExtResource( 17 )
+volume_db = 5.0
+
+[node name="sword sound" type="AudioStreamPlayer2D" parent="Playerbody/Player"]
+stream = ExtResource( 18 )
+volume_db = 5.0
+
+[node name="rain sound" type="AudioStreamPlayer2D" parent="Playerbody/Player"]
+stream = ExtResource( 19 )
+volume_db = 5.0
+
+[node name="wind sound" type="AudioStreamPlayer2D" parent="Playerbody/Player"]
+stream = ExtResource( 20 )
+volume_db = 5.0
+
+[node name="earthquake sound" type="AudioStreamPlayer2D" parent="Playerbody/Player"]
+stream = ExtResource( 21 )
+volume_db = 5.0
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Playerbody"]
 position = Vector2( -324.5, -4.5 )
 shape = SubResource( 3 )
@@ -192,6 +224,31 @@ scale = Vector2( 0.25, 0.25 )
 enabled = true
 cast_to = Vector2( -1000, 0 )
 
+[node name="flame sound" type="AudioStreamPlayer2D" parent="enemybody/Enemy"]
+position = Vector2( -131.75, -0.75 )
+stream = ExtResource( 17 )
+volume_db = 5.0
+
+[node name="sword sound" type="AudioStreamPlayer2D" parent="enemybody/Enemy"]
+position = Vector2( -131.75, -0.75 )
+stream = ExtResource( 18 )
+volume_db = 5.0
+
+[node name="rain sound" type="AudioStreamPlayer2D" parent="enemybody/Enemy"]
+position = Vector2( -131.75, -0.75 )
+stream = ExtResource( 19 )
+volume_db = 5.0
+
+[node name="wind sound" type="AudioStreamPlayer2D" parent="enemybody/Enemy"]
+position = Vector2( -131.75, -0.75 )
+stream = ExtResource( 20 )
+volume_db = 5.0
+
+[node name="earthquake sound" type="AudioStreamPlayer2D" parent="enemybody/Enemy"]
+position = Vector2( -131.75, -0.75 )
+stream = ExtResource( 21 )
+volume_db = 5.0
+
 [node name="FightText" type="RichTextLabel" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
@@ -204,6 +261,32 @@ margin_bottom = 431.0
 rect_scale = Vector2( 2.5, 2.5 )
 custom_fonts/normal_font = SubResource( 5 )
 text = "                                                                    Your Turn"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 16 )
+volume_db = -5.0
+autoplay = true
+
+[node name="Button" type="Button" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 689.0
+margin_top = -57.0
+margin_right = 789.0
+margin_bottom = 43.0
+custom_fonts/font = SubResource( 6 )
+text = "Back"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -280.0
+margin_top = -397.0
+margin_right = -105.0
+margin_bottom = -367.0
+rect_scale = Vector2( 3, 3 )
+text = "Press The Cards To Attack"
 
 [connection signal="pressed" from="flamebleed" to="Playerbody/Player" method="_on_flamebleed_pressed"]
 [connection signal="pressed" from="earthspike" to="Playerbody/Player" method="_on_earthspike_pressed"]
@@ -222,3 +305,4 @@ text = "                                                                    Your
 [connection signal="enemyswordswipehit" from="enemybody/Enemy" to="Playerbody/Player" method="_on_Enemy_enemyswordswipehit"]
 [connection signal="enemywindsweephit" from="enemybody/Enemy" to="Playerbody/Player" method="_on_Enemy_enemywindsweephit"]
 [connection signal="thinking" from="enemybody/Enemy" to="Playerbody/Player" method="_on_Enemy_thinking"]
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
